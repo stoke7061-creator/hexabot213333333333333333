@@ -1,12 +1,14 @@
 import asyncio
+import os
 import random
 
 import discord
 from discord import app_commands
 
-# ====== PUT YOUR BOT TOKEN HERE ======
-TOKEN = "PASTE_YOUR_BOT_TOKEN_HERE"
-# =====================================
+# On Railway, set a variable named DISCORD_TOKEN. For running on your PC,
+# you can paste the token in place of PASTE_YOUR_BOT_TOKEN_HERE instead.
+TOKEN = os.environ.get("DISCORD_TOKEN", "PASTE_YOUR_BOT_TOKEN_HERE")
+TOKEN = TOKEN.strip().strip('"').strip("'").strip()  # removes stray spaces/quotes
 
 JOIN_MESSAGE = (
     "Inv 15 pepole or friends, for gilla mods!!\n"
@@ -18,17 +20,23 @@ intents = discord.Intents.default()
 intents.members = True  # needs "Server Members Intent" enabled in the Developer Portal
 
 
+print(f"Starting bot... token loaded: {len(TOKEN)} characters, {TOKEN.count('.')} dots", flush=True)
+
+
 class Bot(discord.Client):
     def __init__(self):
         super().__init__(intents=intents)
         self.tree = app_commands.CommandTree(self)
+
+    async def on_connect(self):
+        print("Connected to Discord gateway.", flush=True)
 
     async def on_ready(self):
         # Sync the slash command to every server the bot is in (shows up instantly)
         for guild in self.guilds:
             self.tree.copy_global_to(guild=guild)
             await self.tree.sync(guild=guild)
-        print(f"Logged in as {self.user} - ready.")
+        print(f"Logged in as {self.user} - ready. In {len(self.guilds)} server(s).", flush=True)
 
     async def on_guild_join(self, guild):
         self.tree.copy_global_to(guild=guild)
