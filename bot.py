@@ -7,7 +7,7 @@ from discord import app_commands
 
 # On Railway, set a variable named DISCORD_TOKEN. For running on your PC,
 # you can paste the token in place of PASTE_YOUR_BOT_TOKEN_HERE instead.
-TOKEN = os.environ.get("DISCORD_TOKEN", "PASTE_YOUR_BOT_TOKEN_HERE")
+TOKEN = os.environ.get("DISCORD_TOKEN", "MTU3NTM0MzIxNzI2NjkxNzM3OA.GqcmzM.FYo1GvUcnC1cimANJTKsvvTxHK0G2QEOOoJqLw")
 TOKEN = TOKEN.strip().strip('"').strip("'").strip()  # removes stray spaces/quotes
 
 JOIN_MESSAGE = (
